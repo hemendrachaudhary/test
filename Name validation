@@ -1,0 +1,26 @@
+//java script
+ <script type="text/javascript">
+function check() {
+
+        var charRegExp = new RegExp("^[a-zA-Z ']+$")
+ var valid name = $(".check").val();
+ if (firstName.search(charRegExp)!=0 )
+{ alert("Invlaid charcters entered"); }
+else{
+alert(" charcters entered");
+}
+      }  </script>
+      
+      
+      //jquery
+      function checkName() {
+
+  var charRegExp = new RegExp("^[a-zA-Z ']+$")
+  var validname = $(".check").val();
+ if (validname.search(charRegExp)!=0 )
+{ toastr.error('The Email-ID field must contain a valid email address.'); 
+$(".check").val(""); }
+else{
+$(".check").val();
+}
+      } 
