@@ -1,0 +1,17 @@
+<script>
+function ValidateEmail(inputText)  
+{  
+var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;  
+if(inputText.match(mailformat))  
+{  
+document.getElementById("email").value;  
+return true;  
+}  
+else  
+{  
+toastr.error('The Email-ID field must contain a valid email address.'); 
+document.getElementById("email").value = "";    
+return false;  
+}  
+} 
+</script>
