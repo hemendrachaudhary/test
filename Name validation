@@ -2,10 +2,10 @@
  <script type="text/javascript">
 function check() {
 
-        var charRegExp = new RegExp("^[a-zA-Z ']+$")
- var valid name = $(".check").val();
+        var charRegExp = new RegExp("^[a-zA-Z 0-9,]+$")
+ var firstName = document.getElementById("firstName").value;
  if (firstName.search(charRegExp)!=0 )
-{ alert("Invlaid charcters entered"); }
+{ alert("Invlaid charcters entered");}
 else{
 alert(" charcters entered");
 }
