@@ -1,0 +1,26 @@
+<script>
+$(document).ready(function(){
+
+   $(".email").keyup(function(){
+       this.value = this.value.replace(/([~!#$%^&*()_+=`{}\[\]\|\\:;'"<>,\/? ])+/g, '-').replace(/^(-)+|(-)+$/g,'');
+   });
+
+    $(".website").keyup(function(){
+       this.value = this.value.replace(/([~!@#$%^&*()_+=`{}\[\]\|\\:;'"<>,\/? ])+/g, '-').replace(/^(-)+|(-)+$/g,'');
+   });
+
+   $(".address").keyup(function(){
+       this.value = this.value.replace(/([~!@#$%^&*()_+=`{}\[\]\|\\:;'"<>\/?])+/g, '-').replace(/^(-)+|(-)+$/g,'');
+   });
+
+    $(".name").keyup(function(){
+       this.value = this.value.replace(/([0-9\.~!@#$%^&*()_+=`{}\[\]\|\\:;"<>\/?])+/g, '-').replace(/^(-)+|(-)+$/g,'');
+   });
+   
+   $(".description").keyup(function(){
+       this.value = this.value.replace(/([0-9\.~!@#$%^&*()_+=`{}\[\]\|\\:;"'<>\/?])+/g, '-').replace(/^(-)+|(-)+$/g,'');
+   });
+
+});
+
+</script>
