@@ -1,0 +1,48 @@
+function clone(elements, base, exclass) {
+
+    if (exclass != '')
+    {
+        cloneIndex = $("." + exclass).length - 1;
+        cloneIndex = cloneIndex + 1;
+    }
+    $("#" + elements).clone()
+            .appendTo("#" + base)
+            .attr("id", elements + cloneIndex)
+            .find("input,select,span")
+            .each(function () {
+
+                var id = this.id || "";
+                var match = id.match(regex) || [];
+                this.id = this.id.replace(/\[.*\]/g, '') + cloneIndex;
+                if (match.length == 3) {
+                    this.id = match[1] + (cloneIndex);
+                }
+            })
+            .on('click', 'i.clone', clone)
+
+            .on('click', 'i.remove', remove);
+    var cloned = $('#' + elements + cloneIndex);
+    cloned.find('input,textarea').val('');
+    cloned.find('input,textarea').attr("readonly", false);
+    cloned.find('.sno').attr("readonly", true);
+    cloned.find('input,textarea').attr('value', '');
+    cloned.find('select option:first-child').attr("selected", "selected");
+    $('.city, .state').attr("readonly", true);
+    cloneIndex++;
+}
+function remove(elements, exclass) {
+
+    if ($('tr[id^=' + elements + ']').length != 1)
+    {
+        $('tr[id^=' + elements + ']:last').remove();
+    }
+    if ($('div[id^=' + elements + ']').length != 1)
+    {
+        $('div[id^=' + elements + ']:last').remove();
+    }
+
+}
+function AddRow(elements, base, exclass) {
+
+    clone(elements, base, exclass);
+}
