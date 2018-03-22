@@ -1,0 +1,7 @@
+// 	if ($_FILES['profile']['name']!="") {
+    	// 		$s = $_FILES['profile']['tmp_name'];
+    	// 		$d = "uploads/".$_FILES['profile']['tmp_name'];
+    	// 		$f = $_FILES['profile']['name'];
+    	// 		move_uploaded_file($s,$d);
+    			
+    	//
