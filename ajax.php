@@ -51,3 +51,19 @@ function getListMeber(desination) {
         echo '<option value="' . $data['institute_code'] . '">' . $data['institution_name'] . '</option>';
     }
 }
+
+
+*************************************************************************************************************************************
+core php Ajax
+
+function getProduct(str) {
+  var catid = document.getElementById('category_id').value;               
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("productfield").innerHTML = this.responseText;
+            }
+        };
+        xmlhttp.open("GET", "include/process.php?brandID=" + str +"&catId=" + catid, true);
+        xmlhttp.send();
+}
