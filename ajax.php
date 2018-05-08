@@ -68,3 +68,29 @@ function getProduct(str) {
         xmlhttp.open("GET", "include/process.php?brandID=" + str +"&catId=" + catid, true);
         xmlhttp.send();
 }
+*****************************************************************************************************************************
+Ajax form submit
+
+<script>
+                    $(document).ready(function(){
+                      $('#user-register-form').submit(function(){
+                        //disable the default form submission
+                        event.preventDefault();
+                        $.ajax({
+                          url: 'include/process.php',
+                          type: "POST",
+                          data : new FormData($('#user-register-form')[0]),
+                          processData: false,
+                          contentType: false,
+                          async:false
+                        }).done(function(data){
+                          $('#user-register-form')[0].reset();
+                          $('#message1').html(data);
+                        }).fail(function() {
+                          alert( "Posting failed." );
+                        });
+                        // to prevent refreshing the whole page page
+                        return false;
+                      });
+                    });
+                  </script>
