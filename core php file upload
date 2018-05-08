@@ -5,3 +5,22 @@
     	// 		move_uploaded_file($s,$d);
     			
     	//
+        
+   **********************************************************************************     
+        multipal file Upload
+        
+  for($i=0; $i<=sizeof($_FILES['gallery']['name']) ;$i++){
+				 $target_dir = "photogallery/";
+              $target_file = $target_dir.$_FILES['gallery']['name'][$i];
+              if(!move_uploaded_file($_FILES['gallery']['tmp_name'][$i],$target_file)){
+                 $target_file ="";
+              }
+				
+		    $data = array(
+				'images'=>$target_file,'updated_on'=>$dt
+				);
+
+			$this->Admin_model->insertdata("photogallery",$data);
+		}
+			redirect('Admin/allphoto');
+		}
