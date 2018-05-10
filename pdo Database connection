@@ -1,0 +1,39 @@
+<?php
+$host="localhost";
+$dbname="itsoluti_localbitcoins";
+$user="itsoluti_localbi";
+$pass="hardwork123";
+$dbHandle = new PDO("mysql:host=$host;dbname=$dbname", $user, $pass);
+$dbHandle->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+// always disable emulated prepared statement when using the MySQL driver
+$dbHandle->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+
+    // $sql = "SELECT * FROM userinfo";
+    // $stmt = $dbHandle->prepare($sql);
+    // $stmt->execute();
+    // $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+    // print_r($stmt->fetchAll());
+
+
+?>
+***************************************************************************************************************************************
+
+<?php 
+session_start();
+require_once("config.php");
+
+if(isset($_POST['posttrade'])){
+	extract($_POST);
+$user_id = $_SESSION['userid'];
+$dt = date('Y-m-d');
+$sql = "INSERT INTO `posttrade`(`user_id`, `posttrade_type`, `currency`, `payment_method`, `payment_method_lable`, `country`, `price_markup`, `min_amount`, `max_amount`, `predefined_amounts`, `payment_window`, `offer_terms`, `offer_terms_tag`, `trade_instructions`, `date`) VALUES ('$user_id','$posttrade_type','$currency','$payment_method','$payment_method_lable','$country','$price_markup','$min_amount','$max_amount','$predefined_amounts','$payment_window','$offer_terms','$offer_terms_tag','trade_instructions','$dt')";
+ 	// use exec() because no results are returned
+	$dbHandle->exec($sql);
+	$id = $dbHandle->lastInsertId();
+	echo "Posttrade Created Successfull";
+	
+}
+
+
+?>
