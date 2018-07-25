@@ -1,0 +1,26 @@
+ function index(){
+		if ($_POST) {
+			$un = $this->input->post('un');
+			$ps = $this->input->post('ps');
+			$result = $this->Admin_model->adminlogin('admin',array('username'=>$un),array('password'=>$ps));
+			if ($result == TRUE) {
+				$this->session->set_userdata('isUserLoggedIn',TRUE);
+                 
+				$this->session->user_id=$result->id;
+				$this->session->user_un=$result->username;
+				// print_r($this->session->user_id);die;
+			redirect("Admin/dashboard");
+			}else{
+				$data['emsg'] = "Username and password wrong";
+				$data['title']='Admin Login';
+				$this->load->view('login',$data);
+			}
+			
+			
+		}else{
+
+		$data['title']='Admin Login';
+		$data['uniqid']='admin-login';
+		$this->load->view('login',$data);
+		}
+	}
