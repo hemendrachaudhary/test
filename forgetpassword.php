@@ -90,7 +90,7 @@ function forgotPassword(){
 
 
 **********************************************
-uplad phot
+uplad photo
 **********************************************
  function uploadPhoto(){
   	$this->checkLogin();
@@ -114,6 +114,19 @@ uplad phot
         }
   }
   
+
+<form name="upload" id="upload" method="post" action="<?= base_url()?>User_controller/uploadPhoto" enctype="multipart/form-data">
+                                    <div class="picture">
+                                        <?php if($user_info->image==''){?>
+                                        <img src="<?= base_url();?>assets/images/user1.png" class="picture-src" id="wizardPicturePreview" title="">
+                                    <?php }else{?>
+                                     <img src="<?= base_url();?><?php echo $user_info->image?>" class="picture-src" id="wizardPicturePreview" title="">
+                                 <?php } ?>
+                                        <input type="file" name="img" id="wizard-picture" class="" onchange="this.form.submit()">
+                                        <span><i class="fas fa-camera"></i></span>
+                                    </div>
+                                     </form>
+
   
   ***************************************************
   Change passwrd
