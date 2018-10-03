@@ -1,0 +1,60 @@
+ <div class="featured-jobs tg-directpost">
+                     <div class="row">
+                     sfdfsdfdsfsbcvbv
+                     </div>
+                     </div>
+ 
+ 
+ <a href="#" class="tg-btn my_btn_one" style="margin: 20px;" id="loadMore">Load More</a>
+             <a href="#top" class="tg-btn my_btn_one pull-right" style="margin: 20px;">Back to top</a>
+<script>
+$(document).ready(function(){
+  $('.dropdown-submenu a.test').on("click", function(e){
+    $(this).next('ul').toggle();
+    e.stopPropagation();
+    e.preventDefault();
+  });
+});
+
+
+
+function loadMore() {
+
+ 
+            $(function () {
+        $(".tg-directpost").hide();
+        $(".tg-directpost").slice(0, 4).show();
+        $("#loadMore").on('click', function (e) {
+            e.preventDefault();
+            $(".tg-directpost:hidden").slice(0, 4).slideDown();
+            if ($(".tg-directpost:hidden").length == 0) {
+                $("#loadMore").fadeOut('slow');
+            }
+            $('html,body').animate({
+                scrollTop: $(this).offset().top
+            }, 1500);
+        });
+    });
+
+}
+
+$('a[href=\\#top]').click(function () {
+        $('body,html').animate({
+            scrollTop: 0
+        }, 600);
+        return false;
+    });
+
+    $(window).scroll(function () {
+        if ($(this).scrollTop() > 50) {
+            $('.totop a').fadeIn();
+        } else {
+            $('.totop a').fadeOut();
+        }
+    });
+    
+loadMore();
+
+            
+
+</script>
