@@ -131,4 +131,33 @@
 			$this->data['action'] ='web2/doctor/edit_profile';
 			echo json_encode($this->data);
 		}
-	}    
+	}
+	
+	<form name="upload" id="upload" method="post" action="<?= base_url()?>User_controller/uploadPhoto" enctype="multipart/form-data">
+          <div class="my_photo_upload_bx">
+            <input type="file" name="img" id="file-1" class="inputfile inputfile-1" onchange="this.form.submit()">
+                    <label for="file-1"><span><?php if(count($userPhoto)>0){echo 'Add More Poto';}else{echo 'Upload Photos';}?></span></label>
+          </div>
+            </form>
+	    function uploadPhoto(){
+  	$this->checkLogin();
+    $des="";
+        if($_FILES['img']['name']!=""){
+            $tmpName = $_FILES['img']['tmp_name'];
+            $des =  "uploads/".$_FILES['img']['name'];
+        if(move_uploaded_file($tmpName,$des)){
+            $formData = array(
+              'p_name'=> $des,
+              'user_id' => $this->session->userdata('userId'),
+              'date' => date('Y-m-d H:i'),
+             );
+           $id = $this->My_model->insertAll('user_photo',$formData);
+           if($id){
+            redirect('managephotoUser');
+           }
+          }
+        }else{
+           redirect('managephotoUser');
+        }
+  }
+	    
