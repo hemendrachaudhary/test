@@ -1,0 +1,400 @@
+<?php
+    /**
+    * 
+    */
+    class Api_model extends CI_Model
+    {
+        
+        function __construct()
+        {
+            parent:: __construct();
+        }
+
+        /*Get single row data*/
+        public function getSingleRow($table, $condition)
+        {
+            $this->db->select('*');
+            $this->db->from($table);
+            $this->db->where($condition);
+            $query = $this->db->get();
+            //echo $this->db->last_query();
+            return $query->row();       
+        }
+
+         /*Get All data with Limit*/
+        public function getAllDataLimitWhere($table, $where, $limit)
+        {
+            $this->db->select("*");
+            $this->db->from($table);
+            $this->db->where($where);
+            $this->db->order_by('id', 'desc');
+            $this->db->limit($limit);
+            $query = $this->db->get();          
+            return $query->result();
+        }
+
+          /*Get All data with Limit*/
+        public function getAllDataLimit($table, $limit)
+        {
+            $this->db->select("*");
+            $this->db->from($table);
+            $this->db->order_by('id', 'desc');
+            $this->db->limit($limit);
+            $query = $this->db->get();          
+            return $query->result();
+        }
+
+        /*Insert and get last Id*/
+        public function insertGetId($table,$data)
+        {
+            $this->db->insert($table, $data);
+            return $this->db->insert_id();
+        }
+        
+        /* Delete data */
+
+
+        public function deleteData($table,$data){
+        $allData = $this->db->where($data)->delete($table);
+        return $allData;
+        
+    }
+
+        /*Check existing record*/
+        function checkData($table, $condition, $columnName)
+        {
+            $this->db->select($columnName);
+            $this->db->from($table);
+            $this->db->like($condition);
+            return $this->db->count_all_results();
+        }   
+
+        /*Update any data*/
+         public function updateSingleRow($table, $where, $data)
+        {                 
+            $this->db->where($where);
+            $this->db->update($table, $data);
+
+            if ($this->db->affected_rows() > 0)
+            {
+              return TRUE;
+            }
+            else
+            {
+              return FALSE;
+            }
+        }
+
+       
+        /*Get All data*/
+        public function getAllData($table)
+        {
+            $this->db->select("*");
+            $this->db->from($table);
+            $query = $this->db->get();          
+            return $query->result();
+        }
+     
+        /*Get All data with where clause*/
+        public function getAllDataWhere($where, $table)
+        {
+            $this->db->where($where);
+            $this->db->select("*");
+            $this->db->from($table);
+            $query = $this->db->get();
+            // echo $this->db->last_query();
+            // die;     
+            return $query->result();
+        }
+
+        /*Get All data with where clause*/
+        public function getNotDataWhere($where, $table)
+        {
+            $this->db->where($where);
+            $this->db->where('subscription_type !=', 0);
+            $this->db->select("*");
+            $this->db->from($table);
+            $query = $this->db->get();     
+            return $query->result();
+        }
+		
+		public function getAllDataWhere1($where, $table)
+        {
+            $this->db->where($where);
+            $this->db->select("*");
+			$this->db->order_by("date", "desc");
+            $this->db->from($table);
+            $query = $this->db->get();     
+            return $query->result();
+        }
+
+         public function response($status, $message, $data){
+            $arr = array('status' => $status,'message' => $message, 'data' => $data); 
+            header('Content-Type: application/json');      
+             echo json_encode($arr); 
+        }
+        //Response Function TRUE 
+
+        public function responseWithOutData($status, $message){
+            $arr = array('status' => $status,'message' => $message); 
+            header('Content-Type: application/json');      
+             echo json_encode($arr); 
+        }
+
+         public function update_customer_staff_relation($user_id, $link_by)
+        {
+            $this->db->where('user_id', $user_id);
+            $this->db->set('link_by', $link_by, FALSE);
+            $this->db->update('users');
+             if ($this->db->affected_rows() > 0)
+            {
+             
+              return TRUE;
+            }
+            else
+            {
+             
+              return FALSE;
+            }
+        }
+
+           public function update_staff_vender_realation($user_id)
+        {
+            $this->db->where('user_id', $user_id );
+            $this->db->set('vender_id', '0', FALSE);
+            $this->db->update('users');
+
+             if ($this->db->affected_rows() > 0)
+            {
+             
+              return TRUE;
+            }
+            else
+            {
+             
+              return FALSE;
+            }
+        }
+
+        public function update_staff_customer_realation($user_id)
+        {
+            $this->db->where('link_by', $user_id );
+            $this->db->set('link_by', '0', FALSE);
+            $this->db->update('users');
+
+             if ($this->db->affected_rows() > 0)
+            {
+             
+              return TRUE;
+            }
+            else
+            {
+             
+              return FALSE;
+            }
+        }
+
+         public function update_invoiceID($where, $invoice_id)
+        {
+            $this->db->where($where);
+            $this->db->set('invoice_id', $invoice_id, FALSE);
+            $this->db->update('order_product');
+
+             if ($this->db->affected_rows() > 0)
+            {
+             
+              return TRUE;
+            }
+            else
+            {
+             
+              return FALSE;
+            }
+        }
+     
+        public function getSumWithWhere($columnName,$table,$where)
+        {
+            $this->db->select_sum($columnName);
+            $this->db->where($where);
+            $this->db->from($table);
+            $query=$this->db->get();
+            return $query->row();
+        }
+
+         public function getSum($columnName,$table)
+        {
+            $this->db->select_sum($columnName);
+            $this->db->from($table);
+            $query=$this->db->get();
+            return $query->row();
+        }
+
+        public function getTotal($table, $where)
+        {
+            $this->db->select('*');
+            $this->db->from($table);
+            $this->db->where($where);
+            $query = $this->db->get();
+            return $query->num_rows();
+        }
+
+        public function get7DaysRecord($vender_id,$user_id,$customer_id)
+        {
+
+            $this ->db -> where('vender_id', $vender_id);
+            $this ->db -> where('staff_id', $user_id);
+            $this ->db -> where('customer_id', $customer_id);
+            $this->db->where('created_at BETWEEN DATE_SUB(NOW(), INTERVAL 7 DAY) AND NOW()');
+            $this ->db -> from('order_product');
+            $query = $this->db -> get();
+            return $query -> result();
+        }
+
+          public function update_staff_location($user_id,$vender_id,$latitude,$longitude) 
+        {
+            $this ->db -> where('vender_id', $vender_id);
+            $this ->db -> where('user_id', $user_id);
+            $this->db->set('latitude', $latitude, FALSE);
+            $this->db->set('longitude', $longitude, FALSE);
+            $this->db->update('users');
+
+             if ($this->db->affected_rows() > 0)
+            {
+             
+              return TRUE;
+            }
+            else
+            {
+             
+              return FALSE;
+            }
+        }
+
+        public function sumlastmonth($columnName,$table,$where)
+        {
+
+            $this->db->select_sum($columnName);
+            $this->db->where($where);
+            $this->db->where('created_at >= DATE_FORMAT(CURRENT_DATE- INTERVAL 1 MONTH, "%Y-%m-%01") AND created_at < DATE_FORMAT( CURRENT_DATE, "%Y-%m-%01")');
+            $this->db->from($table);
+            $query=$this->db->get();
+            //  $str = $this->db->last_query();
+            // echo  $str;
+            //  die();
+            return $query->row();
+
+        }
+
+         public function updatePayment($where, $status)
+        {
+            $this->db->where($where);
+            $this->db->set('status', $status, FALSE);
+            $this->db->update('invoice');
+
+             if ($this->db->affected_rows() > 0)
+            {
+             
+              return TRUE;
+            }
+            else
+            {
+             
+              return FALSE;
+            }
+        }
+
+         public function updateMoreRequest($where, $status)
+        {
+            $this->db->where($where);
+            $this->db->set('status', $status, FALSE);
+            $this->db->update('extra_request');
+
+             if ($this->db->affected_rows() > 0)
+            {
+             
+              return TRUE;
+            }
+            else
+            {
+             
+              return FALSE;
+            }
+        }
+
+
+/*SELECT SUM(`sell_price`) AS `sell_price`
+FROM `invoice`
+WHERE `vender_id` = '1'
+AND `status` = '1'
+AND `created_at` >= DATE_FORMAT(CURRENT_DATE- INTERVAL 1 MONTH, "%Y-%m-%01") AND `created_at` < DATE_FORMAT( CURRENT_DATE, "%Y-%m-%01")*/
+
+        public function calculateQuantity($table, $where)
+        {   
+            $this->db->select('SUM(quntity) as sum');
+            $this->db->from($table);
+            $this->db->where($where);
+            $query = $this->db->get();     
+            $data = $query->row();
+            return $data->sum;
+        }
+
+        public function calculateQuantitystaff($table, $where)
+        {   
+            $this->db->select('SUM(quantity) as sum');
+            $this->db->from($table);
+            $this->db->where($where);
+            $query = $this->db->get();     
+            $data = $query->row();
+            return $data->sum;
+        }
+
+        public function calculateReturnQuantity($table, $where)
+        {   
+            $this->db->select('SUM(return_quantity) as sum');
+            $this->db->from($table);
+            $this->db->where($where);
+            $query = $this->db->get();
+            $data = $query->row();     
+            return $data->sum;
+        }
+
+        public function insertWhere($table,$where,$data)
+        {   
+            $this->db->where($where);
+            $this->db->insert($table, $data);
+            $query = $this->db->get($table);
+
+            if($query->result()>0){
+
+                return FALSE;
+            }else{
+
+                return TRUE;
+            }
+        }
+
+        public function paidInvoice($id){
+
+        $this->db->query("UPDATE invoice SET status = 1 
+        WHERE customer_id =?", array($id));
+        }
+
+        public function pendingInvoice($id){
+
+        $this->db->query("UPDATE invoice SET status = 0 
+        WHERE customer_id =?", array($id));
+        } 
+
+        public function activeRoutes($id){
+
+        $this->db->query("UPDATE routes SET status = 1 
+        WHERE id =?", array($id));
+        }
+
+        public function inactiveRoutes($id){
+
+        $this->db->query("UPDATE routes SET status = 0 
+        WHERE id =?", array($id));
+        }
+
+    }       
