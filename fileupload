@@ -161,3 +161,51 @@
         }
   }
 	    
+********************************************************************************************************************88
+ public function addEvent()
+    {
+      $user_id= $this->input->post('user_id',TRUE);
+      $event_title= $this->input->post('event_title',TRUE);
+      $event_date= $this->input->post('event_date',TRUE);
+      $event_desc= $this->input->post('event_desc',TRUE);
+      $image= $this->input->post('image');
+
+      $this->load->library('upload');
+  
+       $config['image_library'] = 'gd2';
+       $config['upload_path']   = './assets/images/event/'; 
+       $config['allowed_types'] = 'gif|jpg|jpeg|png';
+       $config['max_size']      = 10000; 
+       $config['file_name']     = time();
+       $config['create_thumb'] = TRUE;
+       $config['maintain_ratio'] = TRUE;
+       $config['width'] = 250;
+       $config['height'] = 250;
+       $this->upload->initialize($config);
+       $galleryImage="";
+       if ( $this->upload->do_upload('image') && $this->load->library('image_lib', $config))
+       {         
+          $galleryImage='assets/images/event/'.$this->upload->data('file_name');
+       }
+       else  
+        {
+          //  echo $this->upload->display_errors();
+        }
+
+        $data['event_title']=$event_title;
+        $data['event_date']=$event_date;
+        $data['event_desc']=$event_desc;
+        $data['image']=$galleryImage;
+        $data['user_id']=$user_id;
+        $data['created_at']=time();
+        $data['updated_at']=time();
+        $getId=$this->Api_model->insertGetId('event',$data);
+        if($getId)
+        {
+           $this->api->api_message(1, 'Event Add Successfully');
+        }
+        else
+        {
+           $this->api->api_message(0, NO_DATA);
+        }
+    }
