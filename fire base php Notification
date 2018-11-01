@@ -1,0 +1,64 @@
+  /*Firebase notifications Key for user*/
+define('USER_FIREBASE_KEY','AAAAIgNxz_g:APA91bGgeYJkwlKmgqq4CT8bYSb6qCCR9jD60GOj_Ts1981HTs7sokQ8hwn7-vLO2UgjLkvFSB2QwfbyRy8eWp38tUSBHfyA8frS4GASyXQN_MtWbW9xVTgttKZEDgpACWl7Wuxy6dHZpBQJkJ0_-E7MEMZEgj886A');
+
+/*Firebase notifications Key for Artist*/
+define('ARTIST_FIREBASE_KEY','AAAA_nouSCk:APA91bFmmZzoSaI37rCFZC-YSnuMWz547kjO3MzZHphA3K-2kPRLASu0-VNTNz8dSZwWpb_QANBfpnlmAhWWPE6-aRiVN8mmmRqAvg55oOxz-FQkLiTkBbcYH1wKcOxxYO54Fu6yo4QfzClwOqxHrWD4W9pHBFf7Vg');
+  
+  
+  
+   public function fire_test($id)
+    {
+        $msg='Lorem Ipsum is simply dummy text of the printing and type setting industry.';
+        $this->firebase_notification($id, "Chat" ,$msg);
+    }
+  
+  
+  
+  
+  /*Firebase for notification*/
+    public function firebase_notification($user_id,$title,$msg1)
+    {          
+      $get_data= $this->Api_model->getSingleRow(USR_TBL,array('user_id'=>$user_id));
+     
+      if($get_data->device_token)
+      {
+        if($get_data->role==1)
+        {
+           $API_ACCESS_KEY= ARTIST_FIREBASE_KEY;
+        }
+        else
+        {
+           $API_ACCESS_KEY= USER_FIREBASE_KEY;
+        }
+
+        $registrationIds =$get_data->device_token;
+
+          $msg = array
+              (
+                'body'    => $msg1,
+                'title'   => $title,
+                'icon'    => 'myicon',/*Default Icon*/
+                'sound'   =>  'mySound'/*Default sound*/
+            );
+          $fields = array
+          (
+              'to' => $registrationIds,
+              'notification'    => $msg
+          );
+          $headers = array
+          (
+              'Authorization: key=' . $API_ACCESS_KEY,
+              'Content-Type: application/json'
+          );
+          #Send Reponse To FireBase Server    
+          $ch = curl_init();
+          curl_setopt( $ch,CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send' );
+          curl_setopt( $ch,CURLOPT_POST, true );
+          curl_setopt( $ch,CURLOPT_HTTPHEADER, $headers );
+          curl_setopt( $ch,CURLOPT_RETURNTRANSFER, true );
+          curl_setopt( $ch,CURLOPT_SSL_VERIFYPEER, false );
+          curl_setopt( $ch,CURLOPT_POSTFIELDS, json_encode( $fields ) );
+          $result = curl_exec($ch );
+          curl_close( $ch );     
+      }
+    }
