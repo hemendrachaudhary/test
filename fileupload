@@ -209,3 +209,107 @@
            $this->api->api_message(0, NO_DATA);
         }
     }
+    
+    *********************************************************************************************************************************
+    
+      /* add borrower */
+      function addStaffAction() {
+       if(isset($_SESSION['name'])) 
+         {
+           
+            $this->form_validation->set_rules('email', 'Email', 'required|is_unique[customer_tbl.cus_email]');
+            $this->form_validation->set_rules('country_code', 'Country code', 'required');
+            if ($this->form_validation->run() == FALSE)
+            {
+
+            $data['page']='Staff';
+            $this -> load -> view('common/head.php');
+            $this -> load -> view('common/sidebar.php',$data);
+            $this -> load -> view('addBorrower', $data);
+            $this -> load -> view('common/footer.php');
+              }
+              else
+              {
+
+            
+            
+            $data['cus_app_id']   =   $this->getAppId();
+            $data['cus_name']     =   $this->input->post('name');
+            $data['cus_email']    =   $this->input->post('email');
+            $data['country_code'] =   $this->input->post('country_code');
+            $data['cus_mobile']   =   $this->input->post('mobile');
+            $data['cus_adddress'] =   $this->input->post('address');
+            $data['Whatsapp']     =   $this->input->post('Whatsapp');
+            $data['Cheque_no']    =   $this->input->post('Cheque_no');
+            $data['bank_name']    =   $this->input->post('bank_name');
+            $data['guarantor_name']    =   $this->input->post('guarantor_name');
+            $data['guarantor_add']    =   $this->input->post('guarantor_add');
+            $data['guarantor_mobile']    =   $this->input->post('guarantor_mobile');
+            $data['guarantor_almobile']    =   $this->input->post('guarantor_almobile');
+            $data['pan']          =   $this->input->post('pan');
+            $data['adhar']        =   $this->input->post('adhar');
+            $data['created_at']   =   date('Y-m-d');
+            $data['updated_at']   =   date('Y-m-d');
+            
+            
+            $config['upload_path']  =   './assets/images/pancard/'; 
+            $config['allowed_types']=   'gif|jpg|jpeg|png';
+            $config['max_size']     =   10000; 
+            $config['file_name']    =   time();
+            $this->load->library('upload', $config);
+            $this->upload->initialize($config);
+            $id_proof="";
+          
+            if($this->upload->do_upload('id_proof'))
+            {
+            
+            $id_proof='assets/images/pancard/'.$this->upload->data('file_name'); 
+
+            }
+            $data['pan_image'] = $id_proof;
+
+            $config['upload_path']   =   './assets/images/stamps/'; 
+            $config['allowed_types'] =   'gif|jpg|jpeg|png';
+            $config['max_size']      =   10000; 
+            $config['file_name']     =   time();
+            $this->load->library('upload', $config);
+            $this->upload->initialize($config);
+            $profileImage="";
+          
+            if($this->upload->do_upload('image_path'))
+            {
+            
+            $profileImage='assets/images/stamps/'.$this->upload->data('file_name'); 
+
+            }
+            $data['stamp_image'] = $profileImage;
+
+            
+            
+            $config['upload_path']   =   './assets/images/adhaarcard/'; 
+            $config['allowed_types'] =   'gif|jpg|jpeg|png';
+            $config['max_size']      =   10000; 
+            $config['file_name']     =   time();
+            $this->load->library('upload', $config);
+            $this->upload->initialize($config);
+            $adharfileImage="";
+          
+            if($this->upload->do_upload('adhaarfile'))
+            {
+            
+            $adharfileImage='assets/images/adhaarcard/'.$this->upload->data('file_name'); 
+
+            }
+            $data['adhar_image'] = $adharfileImage;
+            $this->Api_model->insertGetId('customer_tbl',$data);
+            redirect('index.php/Admin/borrower');
+          }
+
+        }
+      
+        else
+            {
+             redirect('index.php/Admin/login');
+            }
+
+      }
