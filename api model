@@ -396,5 +396,13 @@ AND `created_at` >= DATE_FORMAT(CURRENT_DATE- INTERVAL 1 MONTH, "%Y-%m-%01") AND
         $this->db->query("UPDATE routes SET status = 0 
         WHERE id =?", array($id));
         }
+	
+	public function getLeadByUser($user_id)
+    {
+
+     $query = $this->db->query("SELECT * FROM `lead_info` WHERE  find_in_set('".$user_id."',assign_to)");
+     return $query->result();
+    }
+
 
     }       
