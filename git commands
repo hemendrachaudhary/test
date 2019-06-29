@@ -14,6 +14,9 @@ git remote add origin https://github.com/hemendrachaudhary/abc.git
 git push -u origin master
 
 *******************************
-1.git branch        // list branch
+1. git branch        // list branch
 2. git branch branchname  // create branch
-3.git checkout branchname  // switch to branch
+3. git checkout branchname  // switch to branch
+4. git push --set-upstream origin hembranch   // push code in branch 
+5. git push -u   // user name
+6. git commit -m "test hem branch"  //upload code ready command
