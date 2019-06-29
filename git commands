@@ -12,3 +12,8 @@ git push -u origin master
 …or push an existing repository from the command line
 git remote add origin https://github.com/hemendrachaudhary/abc.git
 git push -u origin master
+
+*******************************
+1.git branch        // list branch
+2. git branch branchname  // create branch
+3.git checkout branchname  // switch to branch
