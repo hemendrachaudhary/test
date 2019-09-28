@@ -26,3 +26,24 @@ function build_tree($arrs, $parent_id=0, $level=0) {
 
 build_tree($arrs);
 ?>
+
+
+
+
+
+$this->load->library('upload');
+
+            $config['upload_path'] = './assets/images/attendance/'; 
+            $config['allowed_types'] = 'gif|jpg|jpeg|png';
+            $config['max_size'] = 10000; 
+             $config['file_name'] = time();
+            $this->upload->initialize($config);
+            $atn_img="";
+            if ( $this->upload->do_upload('atn_img'))
+            {
+            $atn_img=base_url().'assets/images/attendance/'.$this->upload->data('file_name'); 
+            }
+            else
+            {
+        $atn_img='';
+            }
